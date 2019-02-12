@@ -1,0 +1,11 @@
+# IDEA IDE
+.idea/
+
+# Jupyter staff
+**/.ipynb_checkpoints
+
+# Distribution / packaging
+build/
+dist/
+sdist/
+wheels/
