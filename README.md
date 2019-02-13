@@ -7,13 +7,17 @@
 > pip install pyepicollect
 
 ### Use
+#### Search for a given project
 
 ``` python
-import pyepicollect
+import pyepicollect as pyep
 
-# Public Form
-pyepicollect.Initialize()
+# Public Project
+result = pyep.api.search_project(name)
 
-# Private Form
-pyepicollect.Initialize(token=XXXX)
+# Private Project
+token = pyep.auth.request_token(client_id, client_secret)
+token = token['access_token']
+
+result = pyep.api.search_project(name, token=token)
 ```
