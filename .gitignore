@@ -9,3 +9,6 @@ build/
 dist/
 sdist/
 wheels/
+
+# Virtual Environment
+env/
