@@ -9,6 +9,7 @@ build/
 dist/
 sdist/
 wheels/
+pyepicollect.egg-info
 
 # Virtual Environment
 env/
