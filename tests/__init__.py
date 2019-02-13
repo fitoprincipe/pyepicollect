@@ -2,5 +2,3 @@
 
 """ Testing package """
 
-import pytest
-

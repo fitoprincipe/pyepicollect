@@ -2,3 +2,5 @@
 """ Python API for reading EpiCollect 5 data (https://five.epicollect.net/) """
 
 __version__ = '5.0.0'
+
+from . import auth

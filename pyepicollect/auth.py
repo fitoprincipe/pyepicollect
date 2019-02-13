@@ -11,15 +11,14 @@ def request_token(client_id, client_secret):
     """ Get token. Each token is valid for 2 hours
 
     :return: A dictionary with the following keys:
-
     :rtype: dict
     """
-
-    token_data = requests.post(TOKEN_REQ_URL, data={
+    request = requests.post(TOKEN_REQ_URL, data={
         'grant_type': 'client_credentials',
         'client_id': client_id,
         'client_secret': client_secret
     })
+    token_data = request.json()
 
     time_now = datetime.now()
     token_data['request_time'] = time_now
