@@ -12,3 +12,6 @@ wheels/
 
 # Virtual Environment
 env/
+
+# Cache
+pyepicollect/.pytest_cache/
