@@ -2,6 +2,9 @@
 
 ## Read EpiCollect 5 data from python
 
+* **python code**: Rodrigo E. Principe (fitoprincipe82 at gmail)
+* **EpiCollect expert**: Pablo Masera (pablomasera82 at gmail)
+
 ### Install
 
 > pip install pyepicollect
