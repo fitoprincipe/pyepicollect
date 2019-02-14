@@ -3,9 +3,11 @@
 """ Main API calls """
 from . import auth
 import requests
-import os
 
 MEDIA_TYPES = ['photo', 'audio', 'video']
+EXT_PHOTO = ['gif', 'ico', 'jpeg', 'jpg', 'svg', 'tiff', 'tif', 'webp']
+EXT_AUDIO = ['aac', 'mid', 'midi', 'ogg', 'wav', 'weba', '3gp', '3g2']
+EXT_VIDEO = ['avi', 'mpeg', 'mpg', 'ogv', 'webm', '3gp', '3g2']
 
 
 def search_project(name):
@@ -53,31 +55,48 @@ def get_entries(slug, token=None, **kwargs):
     return response.json()
 
 
-def get_media(slug, name, type, format=None, token=None, stream=True):
+def get_media(slug, name, file_type=None, file_format=None, token=None,
+              stream=True):
     """ Get Media data
 
     https://epicollect5.gitbooks.io/epicollect5-api/media/get-media.html
 
     :param name: the name of the file to download
     :type name: str
-    :param type: The type of media. One of 'photo', 'audio', 'video'
-    :type type: str
-    :param format: The format of the media. Depends on the type. See url
-    :type format: str
+    :param file_type: The type of media. One of 'photo', 'audio', 'video'
+    :type file_type: str
+    :param file_format: The format of the media. Depends on the type. See url
+    :type file_format: str
     """
     url = '{}/export/media/{}'.format(auth.REQ_URL, slug)
 
-    if type not in MEDIA_TYPES:
+    if file_type and file_type not in MEDIA_TYPES:
         raise ValueError(
-            'type parameter must be one of {}'.format(MEDIA_TYPES))
+            'file_type parameter must be one of {}'.format(MEDIA_TYPES))
 
-    if not format:
+    if not file_type:
+        # get file extension
+        try:
+            ext = name.split('.')[1]
+        except IndexError:
+            raise ExtensionError
+        else:
+            if ext in EXT_PHOTO:
+                file_type = 'photo'
+            elif ext in EXT_AUDIO:
+                file_type = 'audio'
+            elif ext in EXT_VIDEO:
+                file_type = 'video'
+            else:
+                raise ExtensionError
+
+    if not file_format:
         formats = {'photo': 'entry_original',
                    'audio': 'audio',
                    'video': 'video'}
-        format = formats[type]
+        file_format = formats[file_type]
 
-    params = {'type': type, 'format': format, 'name': name}
+    params = {'type': file_type, 'format': file_format, 'name': name}
 
     if not token:
         response = requests.get(url, params=params, stream=stream)
@@ -92,38 +111,10 @@ def get_media(slug, name, type, format=None, token=None, stream=True):
     return response
 
 
-def download_media(slug, name, type, format=None, path=None, token=None,
-                   stream=True):
-    """ Download Media data
-
-    https://epicollect5.gitbooks.io/epicollect5-api/media/get-media.html
-
-    :param name: the name for the file
-    :type name: str
-    :param type: The type of media. One of 'photo', 'audio', 'video'
-    :type type: str
-    :param format: The format of the media. Depends on the type. See url
-    :type format: str
-    :param path: the path to download the file
-    :type path: str
-    :param stream: stream the data to download
-    :type stream: bool
-    """
-    response = get_media(
-        slug=slug,
-        name=name,
-        type=type,
-        format=format,
-        token=token,
-        stream=stream)
-
-    if not path:
-        path = os.getcwd()
-
-    name = os.path.join(path, name)
-
-    with open(name, "wb") as handle:
-        for data in response.iter_content():
-            handle.write(data)
-
-    return handle
+# Custom Exceptions
+class ExtensionError(Exception):
+    def __init__(self, message=None):
+        if message is None:
+            message = 'The name does not contain an extension, please provide'\
+                      ' a file_type with parameter file_type'
+        super(ExtensionError, self).__init__(message)
