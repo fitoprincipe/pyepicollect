@@ -15,3 +15,24 @@ def test_request_token():
     TEST_CLIENT_ID, TEST_CLIENT_SECRET)
 
     assert type(token) is dict
+
+
+def test_Auth_access_token():
+    auth = pyep.Auth(TEST_CLIENT_ID, TEST_CLIENT_SECRET)
+
+    access_token = auth.access_token
+    assert type(access_token) is str
+
+
+def test_Auth_update():
+    auth = pyep.Auth(TEST_CLIENT_ID, TEST_CLIENT_SECRET)
+    auth.update()
+    request_time = auth.request_time
+
+    from datetime import timedelta
+    delta = timedelta(1)  # 1 day
+
+    auth.request_time = request_time - delta
+
+    access_token = auth.access_token
+    assert type(access_token) is str

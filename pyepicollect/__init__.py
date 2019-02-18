@@ -4,3 +4,4 @@
 __version__ = '5.1.0'
 
 from . import auth, api
+from .auth import Auth
