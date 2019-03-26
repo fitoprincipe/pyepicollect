@@ -55,6 +55,19 @@ def get_entries(slug, token=None, **kwargs):
     return response.json()
 
 
+def get_branch_entries(slug, branch, token=None, **kwargs):
+    """ Get the branch entries for a particular Branch in a Form for a Project
+
+    https://epicollect5.gitbooks.io/epicollect5-api/get-branch-entries.html
+
+    :param slug: The slugified project name
+    :param branch: The ref of a branch input in a form
+    :param token: access token
+    :param kwargs: extra arguments. See URL
+    """
+    return get_entries(slug, token, branch_ref=branch, **kwargs)
+
+
 def get_media(slug, name, file_type=None, file_format=None, token=None,
               stream=True):
     """ Get Media data
