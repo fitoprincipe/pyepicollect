@@ -61,12 +61,21 @@ def get_media(slug, name, file_type=None, file_format=None, token=None,
 
     https://epicollect5.gitbooks.io/epicollect5-api/media/get-media.html
 
+    To get the binary content of the fetched data do:
+
+    ```python
+    media = api.get_media(**kwargs)
+    binary_data = media.content
+    ```
+
     :param name: the name of the file to download
     :type name: str
     :param file_type: The type of media. One of 'photo', 'audio', 'video'
     :type file_type: str
     :param file_format: The format of the media. Depends on the type. See url
     :type file_format: str
+    :return: a response object (see http://docs.python-requests.org/en/latest/user/quickstart/#response-content)
+    :rtype: requests.models.Response
     """
     url = '{}/export/media/{}'.format(auth.REQ_URL, slug)
 
