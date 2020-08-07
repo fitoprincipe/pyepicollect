@@ -2,8 +2,8 @@
 
 import os
 from setuptools import setup, find_packages
-from pyepicollect import __version__
 
+here = os.path.dirname(os.path.abspath(__file__))
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -12,10 +12,14 @@ from pyepicollect import __version__
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+version_ns = {}
+with open(os.path.join(here, 'pyepicollect', '_version.py')) as f:
+    exec(f.read(), {}, version_ns)
+
 # the setup
 setup(
     name='pyepicollect',
-    version=__version__,
+    version=version_ns['__version__'],
     description='Read EpiCollect 5 data from python',
     long_description=read('README.md'),
     url='',
