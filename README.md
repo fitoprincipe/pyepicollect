@@ -5,6 +5,10 @@
 * **python code**: Rodrigo E. Principe (fitoprincipe82 at gmail)
 * **EpiCollect expert**: Pablo Masera (pablomasera83 at gmail)
 
+### Description
+
+This is a python wrapper around EpiCollect 5 API available at https://developers.epicollect.net/
+
 ### Install
 
 > pip install pyepicollect
